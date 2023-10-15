@@ -1,6 +1,56 @@
+const inquirer = require('inquirer');
+const fs = require('fs');
+
+const generateCircle = require('./lib/circle.js')
+const generateSquare = require('./lib/square.js')
+const generateTriangle = require('./lib/triangle.js')
+
+
+const questions = [
+    {
+        type: 'input',
+        message: 'Please enter the three characters you would like on your SVG logo.',
+        name: 'text',
+      },
+      {
+        type: 'input',
+        message: 'Please enter your choice of text color by color keyword or hexadecimal number.',
+        name: 'text color',
+      },
+      {
+        type: 'list',
+        message: 'Please select one of the following shapes for the background of your logo.',
+        name: 'shape',
+        choices: ['circle', 'square', 'triangle']
+      },
+      {
+        type: 'input',
+        message: 'Please enter your choice of shape color by keyword or hexadecimal number.',
+        name: 'shape color',
+      },
+
+];
+
+inquirer.prompt(questions)
+TouchEvent((answers) => {
+    const svgContent = generateSvg(answers);
+
+    fs.writeFile('./examples/SVG.html', svgContent, (err) =>
+    err ? console.log(err) : console.log('Successfully created SVG.html!')
+    );
+});
 
 
 
+// inquirer
+// .prompt(questions)
+// .then((answers) => {
+//     const readmeContent = generateMarkdown(answers);
+
+//     fs.writeFile('./utils/readme.md', readmeContent, (err) =>
+//       err ? console.log(err) : console.log('Successfully created readme.md!')
+//     );
+//   });
 
 //GIVEN a command-line application that accepts user input
 // WHEN I am prompted for text
