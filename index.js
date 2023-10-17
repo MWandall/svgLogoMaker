@@ -1,9 +1,11 @@
 const inquirer = require('inquirer');
-const fs = require('fs');
+// const fs = require('fs');
+const { writeFile } = require('fs').promises;
 
-const generateCircle = require('./lib/circle.js')
-const generateSquare = require('./lib/square.js')
-const generateTriangle = require('./lib/triangle.js')
+
+const Circle = require('./lib/circle.js')
+const Square = require('./lib/square.js')
+const Triangle = require('./lib/triangle.js')
 
 
 const questions = [
@@ -15,7 +17,7 @@ const questions = [
       {
         type: 'input',
         message: 'Please enter your choice of text color by color keyword or hexadecimal number.',
-        name: 'text color',
+        name: 'textColor',
       },
       {
         type: 'list',
@@ -26,21 +28,45 @@ const questions = [
       {
         type: 'input',
         message: 'Please enter your choice of shape color by keyword or hexadecimal number.',
-        name: 'shape color',
+        name: 'shapeColor',
       },
 
 ];
 
 inquirer.prompt(questions)
-TouchEvent((answers) => {
-    const svgContent = generateSvg(answers);
+.then((text, textColor, shape, shapeColor) => {
+    if (shape === 'circle'){
+    const circle = new Circle (text, textColor, shapeColor)
+    return circle.generateCircle();
+    }
+    if (shape === 'triangle'){
+    const triangle = new Triangle (text, textColor, shapeColor)
+    return triangle.generateTriangle();
+    }
+    if (shape === 'square'){
+        const square = new Square (text, textColor, shapeColor)
+        return square.generateSquare();
+        }
 
-    fs.writeFile('./examples/SVG.html', svgContent, (err) =>
-    err ? console.log(err) : console.log('Successfully created SVG.html!')
-    );
-});
+})
+.then((svgContent) => {
+    return writeFile('./examples/SVG.svg', svgContent)
+})
+.then(() => console.log('Success!'))
+.catch((err) => console.error(err + 'Oops! Looks like something went wrong'))
 
 
+
+
+
+// };
+
+// {
+//     const svgContent = generateSvg(answers);
+
+//     fs.writeFile('./examples/SVG.svg', svgContent, (err) =>
+//     err ? console.log(err) : console.log('Successfully created SVG.html!')
+//     );
 
 // inquirer
 // .prompt(questions)
