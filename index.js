@@ -1,7 +1,7 @@
 const inquirer = require('inquirer');
 // const fs = require('fs');
 const { writeFile } = require('fs').promises;
-
+const colorArr = require('./lib/colorArr.js')
 
 const Circle = require('./lib/circle.js')
 const Square = require('./lib/square.js')
@@ -11,13 +11,28 @@ const Triangle = require('./lib/triangle.js')
 const questions = [
     {
         type: 'input',
-        message: 'Please enter the three characters you would like on your SVG logo.',
+        message: 'Please enter the three characters you would like on your SVG logo.', 
         name: 'text',
+
+        validate: (input) => {
+            if (input.length > 3) {
+                return "Please enter only three characters:"
+            } else {
+            return true;
+            }
+        }
       },
       {
         type: 'input',
-        message: 'Please enter your choice of text color by color keyword or hexadecimal number.',
+        message: 'Please enter your choice of text color by color keyword or hexadecimal number starting with #.',
         name: 'textColor',
+        validate: (input) => {
+            if (colorsArr.includes(input)) {
+              return true; // The input is a valid color
+            } else {
+              return 'Invalid color. Please choose another color. ';
+            }
+          },
       },
       {
         type: 'list',
@@ -29,22 +44,29 @@ const questions = [
         type: 'input',
         message: 'Please enter your choice of shape color by keyword or hexadecimal number.',
         name: 'shapeColor',
+        validate: (input) => {
+            if (colorsArr.includes(input)) {
+              return true; // The input is a valid color
+            } else {
+              return 'Invalid color. Please choose another color. ';
+            }
+          },
       },
 
 ];
 
 inquirer.prompt(questions)
-.then((text, textColor, shape, shapeColor) => {
+.then((answers) => {
     if (shape === 'circle'){
-    const circle = new Circle (text, textColor, shapeColor)
+    const circle = new Circle (questions.text, questions.textColor, questions.shapeColor)
     return circle.generateCircle();
     }
     if (shape === 'triangle'){
-    const triangle = new Triangle (text, textColor, shapeColor)
+    const triangle = new Triangle (questions.text, questions.textColor, questions.shapeColor)
     return triangle.generateTriangle();
     }
     if (shape === 'square'){
-        const square = new Square (text, textColor, shapeColor)
+        const square = new Square (questions.text, questions.textColor, questions.shapeColor)
         return square.generateSquare();
         }
 
