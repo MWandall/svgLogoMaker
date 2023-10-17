@@ -1,11 +1,13 @@
 const inquirer = require('inquirer');
 // const fs = require('fs');
 const { writeFile } = require('fs').promises;
-const colorArr = require('./lib/colorArr.js')
+// const colorArr = require('./lib/colorArr.js');
 
-const Circle = require('./lib/circle.js')
-const Square = require('./lib/square.js')
-const Triangle = require('./lib/triangle.js')
+const Circle = require('./lib/circle.js');
+const Square = require('./lib/square.js');
+const Triangle = require('./lib/triangle.js');
+
+let text;
 
 
 const questions = [
@@ -26,13 +28,14 @@ const questions = [
         type: 'input',
         message: 'Please enter your choice of text color by color keyword or hexadecimal number starting with #.',
         name: 'textColor',
-        validate: (input) => {
-            if (colorsArr.includes(input)) {
-              return true; // The input is a valid color
-            } else {
-              return 'Invalid color. Please choose another color. ';
-            }
-          },
+        // validate: (input) => {
+        //     const color = colorArr.find((c) => c.keyword === input || c.hex === input);
+        //     if (color) {
+        //         return true; // The input is a valid color
+        //     } else {
+        //       return 'Invalid color. Please choose another color. ';
+        //     }
+        //   },
       },
       {
         type: 'list',
@@ -42,40 +45,40 @@ const questions = [
       },
       {
         type: 'input',
-        message: 'Please enter your choice of shape color by keyword or hexadecimal number.',
+        message: 'Please enter your choice of shape color by keyword or hexadecimal number starting with #.',
         name: 'shapeColor',
-        validate: (input) => {
-            if (colorsArr.includes(input)) {
-              return true; // The input is a valid color
-            } else {
-              return 'Invalid color. Please choose another color. ';
-            }
-          },
+        // validate: (input) => {
+        //     if (colorArr.includes(input)) {
+        //       return true; // The input is a valid color
+        //     } else {
+        //       return 'Invalid color. Please choose another color. ';
+        //     }
+        //   },
       },
 
 ];
 
 inquirer.prompt(questions)
 .then((answers) => {
-    if (shape === 'circle'){
-    const circle = new Circle (questions.text, questions.textColor, questions.shapeColor)
+    if (answers.shape === 'circle'){
+    const circle = new Circle (answers.text, answers.textColor, answers.shapeColor)
     return circle.generateCircle();
     }
-    if (shape === 'triangle'){
-    const triangle = new Triangle (questions.text, questions.textColor, questions.shapeColor)
+    if (answers.shape === 'triangle'){
+    const triangle = new Triangle (answers.text, answers.textColor, answers.shapeColor)
     return triangle.generateTriangle();
     }
-    if (shape === 'square'){
-        const square = new Square (questions.text, questions.textColor, questions.shapeColor)
+    if (answers.shape === 'square'){
+        const square = new Square (answers.text, answers.textColor, answers.shapeColor)
         return square.generateSquare();
         }
-
-})
+        // return answers
+}) 
 .then((svgContent) => {
-    return writeFile('./examples/SVG.svg', svgContent)
+    return writeFile(`./examples/${questions.text}.svg`, svgContent)
 })
 .then(() => console.log('Success!'))
-.catch((err) => console.error(err + 'Oops! Looks like something went wrong'))
+.catch((err) => console.error(err, 'Oops! Looks like something went wrong'))
 
 
 
