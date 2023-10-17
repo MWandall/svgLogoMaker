@@ -1,8 +1,8 @@
 const inquirer = require('inquirer');
 // const fs = require('fs');
 const { writeFile } = require('fs').promises;
-// const colorArr = require('./lib/colorArr.js');
-
+const colorArr = require('./lib/colorArr.js');
+// console.log(colorArr);
 const Circle = require('./lib/circle.js');
 const Square = require('./lib/square.js');
 const Triangle = require('./lib/triangle.js');
@@ -18,7 +18,7 @@ const questions = [
 
         validate: (input) => {
             if (input.length > 3) {
-                return "Please enter only three characters:"
+                return "Please enter no more than three characters:"
             } else {
             return true;
             }
@@ -28,14 +28,16 @@ const questions = [
         type: 'input',
         message: 'Please enter your choice of text color by color keyword or hexadecimal number starting with #.',
         name: 'textColor',
-        // validate: (input) => {
-        //     const color = colorArr.find((c) => c.keyword === input || c.hex === input);
-        //     if (color) {
-        //         return true; // The input is a valid color
-        //     } else {
-        //       return 'Invalid color. Please choose another color. ';
-        //     }
-        //   },
+        
+        validate: (input) => {
+          const color = colorArr.find((c) => c.name === input.toUpperCase() || c.hex === input.toUpperCase());
+          if (color) {
+              return true; // The input is a valid color
+          } else {
+            return 'Invalid color. Please choose another color. ';
+          }
+        },
+
       },
       {
         type: 'list',
@@ -45,21 +47,24 @@ const questions = [
       },
       {
         type: 'input',
-        message: 'Please enter your choice of shape color by keyword or hexadecimal number starting with #.',
+        message: 'Please enter your choice of text color by color keyword or hexadecimal number starting with #.',
         name: 'shapeColor',
-        // validate: (input) => {
-        //     if (colorArr.includes(input)) {
-        //       return true; // The input is a valid color
-        //     } else {
-        //       return 'Invalid color. Please choose another color. ';
-        //     }
-        //   },
+        validate: (input) => {
+          const color = colorArr.find((c) => c.name === input.toUpperCase() || c.hex === input.toUpperCase());
+          if (color) {
+              return true; // The input is a valid color
+          } else {
+            return 'Invalid color. Please choose another color. ';
+          }
+        },
+
       },
 
 ];
 
 inquirer.prompt(questions)
 .then((answers) => {
+
     if (answers.shape === 'circle'){
     const circle = new Circle (answers.text, answers.textColor, answers.shapeColor)
     return circle.generateCircle();
@@ -72,13 +77,20 @@ inquirer.prompt(questions)
         const square = new Square (answers.text, answers.textColor, answers.shapeColor)
         return square.generateSquare();
         }
-        // return answers
+      
 }) 
 .then((svgContent) => {
-    return writeFile(`./examples/${questions.text}.svg`, svgContent)
+  // console.log(answers);
+    return writeFile(`./examples/liukkhiusad.svg`, svgContent)
 })
 .then(() => console.log('Success!'))
 .catch((err) => console.error(err, 'Oops! Looks like something went wrong'))
+
+
+
+
+
+
 
 
 
