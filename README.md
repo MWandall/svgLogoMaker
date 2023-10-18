@@ -27,11 +27,20 @@ To run, open index.js in terminal and run 'node index.js' to initialize prompt.
 Code demo video link:
 [code demo video](https://drive.google.com/file/d/1Ih4xrfyPk9hTVfH8evILmgdoXP7k8bsC/view)
 
+code example:
 -------
 
 ![code example](./img/image.png)
 
-To add a screenshot, create an 'assets/images' folder in your repository and upload your screenshot to it.
+
+SVG example:
+-------
+
+
+![SVG example](./img/Screenshot%202023-10-17%20220033.png)
+
+
+
 
 ## Credits
 
