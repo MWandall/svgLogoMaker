@@ -81,7 +81,7 @@ inquirer.prompt(questions)
 }) 
 .then((svgContent) => {
   // console.log(answers);
-    return writeFile(`./examples/liukkhiusad.svg`, svgContent)
+    return writeFile(`./examples/logo.svg`, svgContent)
 })
 .then(() => console.log('Success!'))
 .catch((err) => console.error(err, 'Oops! Looks like something went wrong'))
