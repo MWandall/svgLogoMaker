@@ -24,6 +24,11 @@ nodejs is required as well as inquirer and jest for user input and testing.
 
 To run, open index.js in terminal and run 'node index.js' to initialize prompt.
 
+Code demo video link:
+[code demo video](https://drive.google.com/file/d/1Ih4xrfyPk9hTVfH8evILmgdoXP7k8bsC/view)
+
+-------
+
 ![code example](./img/image.png)
 
 To add a screenshot, create an 'assets/images' folder in your repository and upload your screenshot to it.
@@ -50,7 +55,7 @@ Feel free to use this code.
 
 ## Tests
 
-In intigrated terminal, run 'npm run test'. This utilizes jest to test the different logo options. 
+In integrated terminal, run 'npm run test'. This utilizes jest to test the different logo options. 
 
 ## Questions
 
